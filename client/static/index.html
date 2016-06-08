@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Users</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-route.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <script>
+    var myApp = angular.module('myApp', ['ngRoute']);
+    myApp.config(function($routeProvider) {
+      $routeProvider
+      .when('/', {
+        templateUrl: 'partials/custom.html'
+      })
+      .when('/list', {
+        templateUrl: 'partials/list.html'
+      })
+      .otherwise({
+        redirectTo: '/'
+      });
+    });
+    myApp.factory('userFactory', function() {
+      var factory = {};
+      var users = [
+        { first_name: "Yukihiro", last_name: "Matsumoto", lang: "Ruby" },
+        { first_name: "Ryan", last_name: "Dahl", lang: "JavaScript" },
+        { first_name: "Brendan", last_name: "Eich", lang: "JavaScript" },
+      ];
+      factory.getUsers = function(callback) {
+        callback(users);
+      };
+      factory.addUser = function(user) {
+        users.push(user);
+      };
+      factory.deleteUser = function($index) {
+        users.splice($index, 1);
+      };
+      return factory;
+    });
+    myApp.controller('customUsersController', function($scope, userFactory) {
+      $scope.users = [];
+      userFactory.getUsers(function(data) {
+        $scope.users = data;
+      });
+      $scope.addUser = function() {
+        userFactory.addUser($scope.newUser);
+        $scope.newUser = {};
+      };
+      $scope.deleteUser = function($index) {
+        userFactory.deleteUser($index);
+      };
+    });
+    myApp.controller('listsController', function($scope, userFactory) {
+      $scope.users = [];
+      userFactory.getUsers(function(data) {
+        $scope.users = data;
+      });
+    });
+  </script>
+</head>
+<body ng-app="myApp">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <a href="#/">Customize Users</a> | <a href="#/list">User List</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div ng-view="">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<div ng-controller="customUsersController">
+
+		<h3>Users Controller</h3>
+		<form>
+			<div class="form-group">
+				<label>First Name:</label>
+				<input type="text" class="form-control" ng-model="newUser.first_name">
+			</div>
+			<div class="form-group">
+				<label>Last Name:</label>
+				<input type="text" class="form-control" ng-model="newUser.last_name">
+			</div>
+			<div class="form-group">
+				<label>Favorite Language:</label>
+				<input type="text" class="form-control" ng-model="newUser.lang">
+			</div>
+			<div class="form-group">
+				<label>Favorite Language:</label>
+				<input type="text" class="form-control" ng-model="newUser.lang">
+			</div>
+			<div class="form-group">
+				<button class="btn btn-default" ng-click="addUser()">Add User</button>
+			</div>
+		</form>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Favorite Language</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in users">
+				<td ng-bind="user.first_name"></td> 
+				<td ng-bind="user.last_name"></td>
+				<td>{{ user.lang }}</td>
+				<td>
+					<form>
+						<button class="btn btn-danger" ng-click="deleteUser($index)">Delete User</button>
+					</form>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
